@@ -1,0 +1,14 @@
+<h2>grade-histories works </h2>
+
+
+<p>{{message}}</p>
+
+<ol>
+    @for (u of gradeHistories; track u._id)
+    {<li>
+      Class : {{u.class_id}} 
+      Student : {{u.student_id}}
+  </li>
+  }
+</ol>
+  
