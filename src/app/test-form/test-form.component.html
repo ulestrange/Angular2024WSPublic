@@ -18,9 +18,10 @@
                 <input id="score-{{ i }}" type="text" formControlName="score">
                 <label for="type-{{ i }}">Type {{i+1}}:</label>
                 <input id="type-{{ i }}" type="text" formControlName="type">
+                            
+                  <button type="button"   (click)="removeGrade(i)">Remove</button>
                 </div>
-            
-            <button type="button"   (click)="removeGrade(i)">Remove</button>
+
         }
     </div>
 
