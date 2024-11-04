@@ -19,7 +19,9 @@
                 <label for="type-{{ i }}">Type {{i+1}}:</label>
                 <input id="type-{{ i }}" type="text" formControlName="type">
                 </div>
-            }
+            
+            <button type="button"   (click)="removeGrade(i)">Remove</button>
+        }
     </div>
 
 

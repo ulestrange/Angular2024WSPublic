@@ -31,6 +31,10 @@ export class TestFormComponent {
     return this.gradeHistoryForm.get('grades') as FormArray;
   }
 
+  removeGrade(index: number): void {
+    this.grades.removeAt(index);
+  }
+
   addGrade(): void {
     const gradeGroup = this.formBuilder.group({
       type: [''],
