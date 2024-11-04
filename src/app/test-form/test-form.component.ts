@@ -1,24 +1,46 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms'
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  FormsModule,
+  FormBuilder,
+  FormArray,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-test-form',
   standalone: true,
-  imports: [ FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './test-form.component.html',
-  styleUrl: './test-form.component.css'
+  styleUrl: './test-form.component.css',
 })
 export class TestFormComponent {
+  gradeHistoryForm: FormGroup;
 
-  gradeHistoryForm : FormGroup = new FormGroup({
-    class_id: new FormControl (''),
-    student_id: new FormControl (''),
-    })
+  constructor(private formBuilder: FormBuilder) {
+    // Initialize the form in the constructor
+    this.gradeHistoryForm = this.formBuilder.group({
+      class_id: [''],
+      student_id: [''],
+      grades: this.formBuilder.array([]),
+    });
+  }
 
+  get grades(): FormArray {
+    return this.gradeHistoryForm.get('grades') as FormArray;
+  }
 
-    onSubmit(){
-      console.log('forms submitted with ');
-      console.table(this.gradeHistoryForm.value);
-    }
+  addGrade(): void {
+    const gradeGroup = this.formBuilder.group({
+      type: [''],
+      score: [''],
+    });
+    this.grades.push(gradeGroup);
+  }
 
+  onSubmit() {
+    console.log('forms submitted with ');
+    console.table(this.gradeHistoryForm.value);
+  }
 }
