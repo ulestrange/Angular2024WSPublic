@@ -1,0 +1,15 @@
+<p>test-form works!</p>
+
+
+<form [formGroup]="gradeHistoryForm" (ngSubmit) = "onSubmit()"  >
+    <div >
+        <label for="class_id"> Class ID</label>
+        <input id="class_id" type="text" formControlName="class_id" >
+    </div>
+    <div >
+        <label for="student_id"> Student ID</label>
+        <input id="student_id" type="student_id" formControlName="student_id" >
+    </div>
+  
+    <button type="submit" >Submit</button>
+</form>
