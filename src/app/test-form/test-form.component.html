@@ -12,21 +12,34 @@
     </div>
   
     <div formArrayName="grades">
-        @for (grade of grades.controls; track $index ;  let i=$index; ){
+        @for (grade of grades.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
                 <label for="score-{{ i }}">score {{i+1}}:</label>
-                <input id="score-{{ i }}" type="text" formControlName="score">
-                <label for="type-{{ i }}">Type {{i+1}}:</label>
-                <input id="type-{{ i }}" type="text" formControlName="type">
+                <input id="score-{{ i }}" type="number" formControlName="score">
+              <label for="type-{{ i }}">Type {{i+1}}:</label>
+                <input id="type-{{ i }}" type="number" formControlName="type"> 
                             
                   <button type="button"   (click)="removeGrade(i)">Remove</button>
-                </div>
-
+            </div>
         }
     </div>
 
+    <!-- <h2>Next Set</h2>
 
-    <button type="submit" >Submit</button>
+   <div formArrayName="grades">
+            <div *ngFor="let grade of grades.controls; let i = index" >
+            <div  [formGroupName]="i"> 
+                <label for="score-{{ i }}">score {{i+1}}:</label>
+                <input id="score-{{ i }}" type="text" formControlName="score">
+                <label for="type-{{ i }}">Type {{i+1}}:</label>
+                <input id="type-{{ i }}" type="text" formControlName="type"> 
+                         
+                  <button type="button"   (click)="removeGrade(i)">Remove</button>
+                </div>
+                </div>
+    </div> -->
+
+    <button type="submit" [disabled]="gradeHistoryForm.invalid" >Submit</button>
 
     <button  type="button" (click)="addGrade()">Add Grade</button>
 </form>
