@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+
 import {
   FormControl,
   FormGroup,
@@ -6,6 +7,7 @@ import {
   FormsModule,
   FormBuilder,
   FormArray,
+  Validators,
 } from '@angular/forms';
 
 @Component({
@@ -21,7 +23,7 @@ export class TestFormComponent {
   constructor(private formBuilder: FormBuilder) {
     // Initialize the form in the constructor
     this.gradeHistoryForm = this.formBuilder.group({
-      class_id: [''],
+      class_id: ['', [Validators.required, Validators.minLength(3)]],
       student_id: [''],
       grades: this.formBuilder.array([]),
     });
@@ -32,6 +34,8 @@ export class TestFormComponent {
   }
 
   removeGrade(index: number): void {
+    console.log(index);
+    console.table(this.grades.at(index).value)
     this.grades.removeAt(index);
   }
 
