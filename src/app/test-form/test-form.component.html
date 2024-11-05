@@ -15,9 +15,9 @@
         @for (grade of grades.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
                 <label for="score-{{ i }}">score {{i+1}}:</label>
-                <input id="score-{{ i }}" type="text" formControlName="score">
+                <input id="score-{{ i }}" type="number" formControlName="score">
               <label for="type-{{ i }}">Type {{i+1}}:</label>
-                <input id="type-{{ i }}" type="text" formControlName="type"> 
+                <input id="type-{{ i }}" type="number" formControlName="type"> 
                             
                   <button type="button"   (click)="removeGrade(i)">Remove</button>
             </div>
