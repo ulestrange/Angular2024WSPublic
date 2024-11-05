@@ -17,12 +17,30 @@
                 <label for="score-{{ i }}">score {{i+1}}:</label>
                 <input id="score-{{ i }}" type="number" formControlName="score">
               <label for="type-{{ i }}">Type {{i+1}}:</label>
-                <input id="type-{{ i }}" type="number" formControlName="type"> 
+                <input id="type-{{ i }}" type="text" formControlName="type"> 
                             
                   <button type="button"   (click)="removeGrade(i)">Remove</button>
             </div>
+
+
         }
     </div>
+
+    <div >
+        @if (grades.invalid && grades.touched)
+        {
+        Issues with the grades
+        }
+    </div>
+    
+    <div >
+        @if (class_id?.invalid && class_id?.touched)
+        {
+        Class ID is required and must be at least 3 letters
+        }
+    </div>
+
+
 
     <!-- <h2>Next Set</h2>
 

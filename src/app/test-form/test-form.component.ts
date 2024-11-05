@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   FormControl,
@@ -33,16 +33,23 @@ export class TestFormComponent {
     return this.gradeHistoryForm.get('grades') as FormArray;
   }
 
+  get class_id() {
+    return this.gradeHistoryForm.get('class_id');
+  }
+
   removeGrade(index: number): void {
     console.log(index);
-    console.table(this.grades.at(index).value)
+    console.table(this.grades.at(index).value);
     this.grades.removeAt(index);
   }
 
   addGrade(): void {
     const gradeGroup = this.formBuilder.group({
-      type: [''],
-      score: [''],
+      type: ['', [Validators.required]],
+      score: [
+        '',
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
     });
     this.grades.push(gradeGroup);
   }
