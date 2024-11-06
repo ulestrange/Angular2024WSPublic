@@ -9,11 +9,22 @@ import {
   FormArray,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule} from '@angular/material/input'
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-test-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule, 
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
+  ],
   templateUrl: './test-form.component.html',
   styleUrl: './test-form.component.css',
 })

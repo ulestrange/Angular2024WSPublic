@@ -2,14 +2,16 @@
 
 
 <form [formGroup]="gradeHistoryForm" (ngSubmit) = "onSubmit()"  >
-    <div >
-        <label for="class_id"> Class ID</label>
-        <input id="class_id" type="text" formControlName="class_id" >
-    </div>
-    <div >
-        <label for="student_id"> Student ID</label>
-        <input id="student_id" type="student_id" formControlName="student_id" >
-    </div>
+    <mat-card>
+    <mat-form-field appearance="outline"  >
+        <mat-label> Class ID</mat-label>
+        <input id="class_id"  type="text" matInput formControlName="class_id" >
+        <mat-hint>Must be at least 3 chars</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline" >
+        <mat-label > Student ID</mat-label>
+        <input id="student_id" matInput type="student_id" formControlName="student_id" >
+    </mat-form-field>
   
     <div formArrayName="grades">
         @for (grade of grades.controls; track grade ;  let i=$index; ){
@@ -60,4 +62,5 @@
     <button type="submit" [disabled]="gradeHistoryForm.invalid" >Submit</button>
 
     <button  type="button" (click)="addGrade()">Add Grade</button>
+    </mat-card>
 </form>

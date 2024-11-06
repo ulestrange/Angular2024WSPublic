@@ -3,12 +3,17 @@
 
 <p>{{message}}</p>
 
-<ol>
+<div class="container responsive-grid">
     @for (u of gradeHistories; track u._id)
-    {<li>
+    {
+      <mat-card>
+        <mat-card-header>Details</mat-card-header>
+        <mat-card-content>
       Class : {{u.class_id}} 
       Student : {{u.student_id}}
-  </li>
+    </mat-card-content>
+    </mat-card>
   }
-</ol>
+</div>
+
   
