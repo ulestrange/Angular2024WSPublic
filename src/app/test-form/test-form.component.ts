@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule} from '@angular/material/input'
 import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-test-form',
@@ -23,7 +24,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   templateUrl: './test-form.component.html',
   styleUrl: './test-form.component.css',

@@ -1,8 +1,13 @@
-<p>test-form works!</p>
 
 
 <form [formGroup]="gradeHistoryForm" (ngSubmit) = "onSubmit()"  >
     <mat-card>
+
+        <mat-card-header>
+            <h2>Enter Student and Class Information</h2>
+        </mat-card-header>
+        <mat-card-content>
+
     <mat-form-field appearance="outline"  >
         <mat-label> Class ID</mat-label>
         <input id="class_id"  type="text" matInput formControlName="class_id" >
@@ -12,16 +17,27 @@
         <mat-label > Student ID</mat-label>
         <input id="student_id" matInput type="student_id" formControlName="student_id" >
     </mat-form-field>
+
+    <button mat-button mat-raised-button color="warn" >
+        <mat-icon>close</mat-icon>
+        <span> 
+          Cancel</span>
+    </button>
   
-    <div formArrayName="grades">
+    <div formArrayName="grades" >
         @for (grade of grades.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
-                <label for="score-{{ i }}">score {{i+1}}:</label>
-                <input id="score-{{ i }}" type="number" formControlName="score">
-              <label for="type-{{ i }}">Type {{i+1}}:</label>
-                <input id="type-{{ i }}" type="text" formControlName="type"> 
-                            
-                  <button type="button"   (click)="removeGrade(i)">Remove</button>
+            <mat-form-field>
+                <mat-label>score {{i+1}}:</mat-label>
+                <input matInput type="number" formControlName="score" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label >Type {{i+1}}:</mat-label>
+                <input matInput id="type-{{ i }}" type="text" formControlName="type"> 
+            </mat-form-field>          
+                  <button mat-button="button"   (click)="removeGrade(i)">
+                    <mat-icon>delete</mat-icon>
+                    Remove</button>
             </div>
 
 
@@ -35,14 +51,12 @@
         }
     </div>
     
-    <div >
-        @if (class_id?.invalid && class_id?.touched)
-        {
-        Class ID is required and must be at least 3 letters
-        }
-    </div>
 
+<div>
 
+</div>
+
+ 
 
     <!-- <h2>Next Set</h2>
 
@@ -59,8 +73,14 @@
                 </div>
     </div> -->
 
-    <button type="submit" [disabled]="gradeHistoryForm.invalid" >Submit</button>
+    
 
-    <button  type="button" (click)="addGrade()">Add Grade</button>
+   
+    </mat-card-content>
+<mat-card-actions>
+    <button  type="button" mat-button (click)="addGrade()">Add Grade</button>
+    <button type="submit" mat-raised-button [disabled]="gradeHistoryForm.invalid" >Submit</button>
+   
+    </mat-card-actions>
     </mat-card>
 </form>
