@@ -18,26 +18,25 @@
         <input id="student_id" matInput type="student_id" formControlName="student_id" >
     </mat-form-field>
 
-    <button mat-button mat-raised-button color="warn" >
-        <mat-icon>close</mat-icon>
-        <span> 
-          Cancel</span>
-    </button>
   
     <div formArrayName="grades" >
         @for (grade of grades.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
+                <fieldset>
+                    <legend>Assessment type and score {{i+1}}</legend>
             <mat-form-field>
-                <mat-label>score {{i+1}}:</mat-label>
+                <mat-label>Score</mat-label>
                 <input matInput type="number" formControlName="score" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label >Type {{i+1}}:</mat-label>
+                <mat-label >Type</mat-label>
                 <input matInput id="type-{{ i }}" type="text" formControlName="type"> 
-            </mat-form-field>          
-                  <button mat-button="button"   (click)="removeGrade(i)">
+            </mat-form-field >          
+                  <button mat-button="button" 
+                  aria-label="Remove item"  (click)="removeGrade(i)">
                     <mat-icon>delete</mat-icon>
                     Remove</button>
+                </fieldset>
             </div>
 
 
