@@ -11,7 +11,15 @@
     <mat-form-field appearance="outline"  >
         <mat-label> Class ID</mat-label>
         <input id="class_id"  type="text" matInput formControlName="class_id" >
+        @if (!class_id?.value){
         <mat-hint>Must be at least 3 chars</mat-hint>
+        }
+        @if (class_id?.hasError('required') ){
+            <mat-error>Class ID is required </mat-error>
+        }
+        @else if (class_id?.hasError('minlength')) {
+            <mat-error>Class ID Must be at least 3 chars </mat-error>
+        }
     </mat-form-field>
     <mat-form-field appearance="outline" >
         <mat-label > Student ID</mat-label>
@@ -23,33 +31,57 @@
         @for (grade of grades.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
                 <fieldset>
-                    <legend>Assessment type and score {{i+1}}</legend>
+
+                    <!-- <mat-radio-group formControlName="type">
+                        <mat-radio-button value="exam">Exam</mat-radio-button>
+                        <mat-radio-button value="quiz">Quiz</mat-radio-button>
+                        <mat-radio-button value="homework">Homework</mat-radio-button>
+                      </mat-radio-group>
+                    -->
+
+                    <mat-form-field >
+                        <mat-label>Type of Assessment</mat-label>
+                        <mat-select formControlName="type">
+                          @for (type of gradeTypes; track type) {
+                            <mat-option [value]="type.value" > {{type.viewValue}}</mat-option>
+                          }
+                        </mat-select>
+                    </mat-form-field>
+
             <mat-form-field>
                 <mat-label>Score</mat-label>
                 <input matInput type="number" formControlName="score" />
+                <mat-error>Must be a number between 0 and 100 </mat-error>
+                
             </mat-form-field>
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-label >Type</mat-label>
                 <input matInput id="type-{{ i }}" type="text" formControlName="type"> 
-            </mat-form-field >          
+            </mat-form-field >        -->
+            
+
+
                   <button mat-button="button" 
                   aria-label="Remove item"  (click)="removeGrade(i)">
                     <mat-icon>delete</mat-icon>
                     Remove</button>
+                    <legend>Assessment type and score {{i+1}}</legend>
                 </fieldset>
+
+
             </div>
 
 
         }
     </div>
 
-    <div >
+    <!-- <div >
         @if (grades.invalid && grades.touched)
         {
         Issues with the grades
         }
     </div>
-    
+     -->
 
 <div>
 
@@ -77,9 +109,8 @@
    
     </mat-card-content>
 <mat-card-actions>
-    <button  type="button" mat-button (click)="addGrade()">Add Grade</button>
+    <button  type="button" mat-flat-button (click)="addGrade()">Add Grade</button>
     <button type="submit" mat-raised-button [disabled]="gradeHistoryForm.invalid" >Submit</button>
-   
     </mat-card-actions>
     </mat-card>
 </form>
