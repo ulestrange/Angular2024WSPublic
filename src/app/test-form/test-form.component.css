@@ -1,7 +1,38 @@
-input.ng-invalid.ng-touched {
+/* input.ng-invalid.ng-touched {
     background-color: pink;
-}
+} */
 
 /* input.ng-valid {
     background-color: lightgreen;
 } */
+
+.mat-mdc-card{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10%;
+}
+
+.mat-mdc-form-field{
+width: 100%;
+}
+
+
+.mdc-button{
+    margin: 2px;
+}
+
+
+/* .container input,
+  .container button {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  } */
+
+fieldset {
+    width: 80%;
+    margin: auto;
+
+}

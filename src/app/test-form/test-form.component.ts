@@ -9,16 +9,39 @@ import {
   FormArray,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule} from '@angular/material/input'
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-test-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule, 
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatIconModule,
+    MatRadioModule,
+    MatSelectModule
+  ],
   templateUrl: './test-form.component.html',
   styleUrl: './test-form.component.css',
 })
 export class TestFormComponent {
+
   gradeHistoryForm: FormGroup;
+  gradeTypes = [
+    {value: 'homework', viewValue: 'Homework'},
+    {value: 'quiz', viewValue: 'Quiz'},
+    {value: 'exam', viewValue: 'Exam'},
+  ];
 
   constructor(private formBuilder: FormBuilder) {
     // Initialize the form in the constructor
