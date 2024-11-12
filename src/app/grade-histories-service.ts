@@ -25,8 +25,31 @@ export class GradeHistoriesService {
     );
   };
 
+    /// takes an id and sends a get request for that individual resource. 
+
+  getGradeHistory(id: string): Observable<GradeHistory> {
+
+    let uri = `${this.gradeHistoryUri}/${id}`
+    
+   return this.http.get<GradeHistory>(uri)
+    .pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
 
 
+
+
+  
+    /** adapted from https://angular.io/guide/http-send-data-to-server */
+  
+  addGradeHistory(gradeHistory: GradeHistory): Observable<GradeHistory> {
+    return this.http.post<GradeHistory>(this.gradeHistoryUri, gradeHistory)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
   
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
