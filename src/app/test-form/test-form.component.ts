@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GradeHistory } from '../grade-history';
 
 import {
   FormControl,
@@ -16,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import { GradeHistoriesService } from '../grade-histories-service';
 
 @Component({
   selector: 'app-test-form',
@@ -42,18 +44,19 @@ export class TestFormComponent {
     {value: 'quiz', viewValue: 'Quiz'},
     {value: 'exam', viewValue: 'Exam'},
   ];
+ 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private gradeHistoriesService: GradeHistoriesService) {
     // Initialize the form in the constructor
     this.gradeHistoryForm = this.formBuilder.group({
       class_id: ['', [Validators.required, Validators.minLength(3)]],
       student_id: [''],
-      grades: this.formBuilder.array([]),
+      scores: this.formBuilder.array([]),
     });
   }
 
-  get grades(): FormArray {
-    return this.gradeHistoryForm.get('grades') as FormArray;
+  get scores(): FormArray {
+    return this.gradeHistoryForm.get('scores') as FormArray;
   }
 
   get class_id() {
@@ -62,8 +65,8 @@ export class TestFormComponent {
 
   removeGrade(index: number): void {
     console.log(index);
-    console.table(this.grades.at(index).value);
-    this.grades.removeAt(index);
+    console.table(this.scores.at(index).value);
+    this.scores.removeAt(index);
   }
 
   addGrade(): void {
@@ -74,11 +77,26 @@ export class TestFormComponent {
         [Validators.required, Validators.min(0), Validators.max(100)],
       ],
     });
-    this.grades.push(gradeGroup);
+    this.scores.push(gradeGroup);
   }
 
   onSubmit() {
     console.log('forms submitted with ');
     console.table(this.gradeHistoryForm.value);
+    this.addNewGradeHistory(this.gradeHistoryForm.value)
+  }
+
+
+  addNewGradeHistory(newHistory: GradeHistory): void {
+    console.log('adding new gradeHistory ' + JSON.stringify(newHistory));
+    this.gradeHistoriesService.addGradeHistory( {...newHistory})
+    .subscribe(
+    response => {
+      console.log('Grade history submitted successfully', response);
+    },
+    error => {
+      console.error('There was an error!', error);
+    }  
+    )
   }
 }
