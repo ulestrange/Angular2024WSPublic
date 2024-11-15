@@ -36,7 +36,6 @@ export class GradeHistoryDetailsComponent {
 
   editGradeHistory() : void {
     this.showForm = true;
-
   }
 
 }

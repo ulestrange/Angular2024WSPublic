@@ -113,15 +113,29 @@ populateScores() {
     console.log('forms submitted with ');
     console.table(this.gradeHistoryForm.value);
     if (!this.gradeHistory){
-        this.gradeHistoriesService.addGradeHistory(this.gradeHistoryForm.value)
+        this.createNew(this.gradeHistoryForm.value)
       }
     else {
-      this.updateGradeHistory(this.gradeHistory._id, this.gradeHistoryForm.value)
+      this.updateExisting(this.gradeHistory._id, this.gradeHistoryForm.value)
     }
+
+
   }
 
+  createNew (formValues : GradeHistory)
+  {
+    this.gradeHistoriesService.addGradeHistory({...formValues})
+    .subscribe({
+      next: response => {   
+        this.router.navigateByUrl('/grade-history')
+      },
+      error: (err : Error) => {
+          console.log (err.message);
+         // this.message = err
+      }})
+  }
 
-    updateGradeHistory (id : string, updatedValues : GradeHistory){
+    updateExisting (id : string, updatedValues : GradeHistory){
       this.gradeHistoriesService.updateGradeHistory(id, {...updatedValues})
       .subscribe({
         next: response => {   
