@@ -1,5 +1,5 @@
 export interface GradeHistory {
-    _id?: string;
+    _id: any;
     student_id: number;  // Integer student ID
     class_id: number;    // Integer class ID
     scores: Score[];     // Array of scores

@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { GradeHistory } from '../grade-history';
 import { GradeHistoriesService } from '../grade-histories-service';
 import { MatCardModule } from '@angular/material/card'
+import { RouterLink } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-grade-histories',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, RouterLink],
   templateUrl: './grade-histories.component.html',
   styleUrl: './grade-histories.component.css'
 })

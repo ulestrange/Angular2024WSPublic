@@ -38,7 +38,14 @@ export class GradeHistoriesService {
     );
   }
 
-
+  updateGradeHistory(id: string, gradeHistory: GradeHistory): Observable<GradeHistory> {
+    console.log('subscribing to update/' + id);
+    let uri = `${this.gradeHistoryUri}/${id}`
+    return this.http.put<GradeHistory>(uri, gradeHistory)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
 
 
   

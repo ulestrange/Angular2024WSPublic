@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GradeHistory } from '../grade-history';
 
 import {
@@ -18,6 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { GradeHistoriesService } from '../grade-histories-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-test-form',
@@ -37,8 +38,10 @@ import { GradeHistoriesService } from '../grade-histories-service';
   styleUrl: './test-form.component.css',
 })
 export class TestFormComponent {
+  
+  @Input() gradeHistory? : GradeHistory;
 
-  gradeHistoryForm: FormGroup;
+  gradeHistoryForm: FormGroup = new FormGroup({});
   gradeTypes = [
     {value: 'homework', viewValue: 'Homework'},
     {value: 'quiz', viewValue: 'Quiz'},
@@ -46,14 +49,40 @@ export class TestFormComponent {
   ];
  
 
-  constructor(private formBuilder: FormBuilder, private gradeHistoriesService: GradeHistoriesService) {
-    // Initialize the form in the constructor
-    this.gradeHistoryForm = this.formBuilder.group({
-      class_id: ['', [Validators.required, Validators.minLength(3)]],
-      student_id: [''],
-      scores: this.formBuilder.array([]),
-    });
+  constructor(private formBuilder: FormBuilder,
+     private gradeHistoriesService: GradeHistoriesService,
+    private router : Router) {
+    // Cannot Initialize the form in the constructor anymore 
+    // because the input is not defined until initialisaion
   }
+
+  ngOnInit() : void{
+
+   this.gradeHistoryForm = this.formBuilder.group({
+      class_id: [this.gradeHistory?.class_id, [Validators.required, Validators.minLength(3)]],
+      student_id: [this.gradeHistory?.student_id],
+      scores: this.formBuilder.array([]),
+  });
+
+  if (this.gradeHistory)
+    {
+      this.populateScores()
+    }
+}
+
+populateScores() {
+  const scoreArray = this.gradeHistoryForm.get('scores') as FormArray;
+  this.gradeHistory?.scores.forEach(score => {
+    const gradeGroup = this.formBuilder.group({
+      type: [score.type, [Validators.required]],
+      score: [
+        score.score,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+    });
+    scoreArray.push(gradeGroup);
+  });
+}
 
   get scores(): FormArray {
     return this.gradeHistoryForm.get('scores') as FormArray;
@@ -83,20 +112,38 @@ export class TestFormComponent {
   onSubmit() {
     console.log('forms submitted with ');
     console.table(this.gradeHistoryForm.value);
-    this.addNewGradeHistory(this.gradeHistoryForm.value)
+    if (!this.gradeHistory){
+        this.gradeHistoriesService.addGradeHistory(this.gradeHistoryForm.value)
+      }
+    else {
+      this.updateGradeHistory(this.gradeHistory._id, this.gradeHistoryForm.value)
+    }
   }
+
+
+    updateGradeHistory (id : string, updatedValues : GradeHistory){
+      this.gradeHistoriesService.updateGradeHistory(id, {...updatedValues})
+      .subscribe({
+        next: response => {   
+          this.router.navigateByUrl('/grade-history')
+        },
+        error: (err : Error) => {
+            console.log (err.message);
+           // this.message = err
+          }})}
+  
 
 
   addNewGradeHistory(newHistory: GradeHistory): void {
     console.log('adding new gradeHistory ' + JSON.stringify(newHistory));
     this.gradeHistoriesService.addGradeHistory( {...newHistory})
-    .subscribe(
-    response => {
+    .subscribe({
+    next: response => {
       console.log('Grade history submitted successfully', response);
     },
-    error => {
-      console.error('There was an error!', error);
-    }  
+    error: (err : Error) => {
+      console.error('There was an error!', err.message);
+    }  }
     )
   }
 }
