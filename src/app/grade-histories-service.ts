@@ -48,6 +48,13 @@ export class GradeHistoriesService {
   }
 
 
+  deleteGradeHistory(id: string) {
+  let uri = `${this.gradeHistoryUri}/${id}`
+  return this.http.delete<GradeHistory>(uri)
+    .pipe(
+      catchError(this.handleError)
+    )
+}
   
     /** adapted from https://angular.io/guide/http-send-data-to-server */
   

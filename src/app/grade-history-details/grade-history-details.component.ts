@@ -38,4 +38,21 @@ export class GradeHistoryDetailsComponent {
     this.showForm = true;
   }
 
+  deleteGradeHistory() : void {
+    console.log("in delete");
+
+    if (this.id) {
+    this.gradeHistoriesService.deleteGradeHistory(this.id)
+    .subscribe({
+      next: response => {   
+        this.router.navigateByUrl('/grade-history')
+      },
+      error: (err : Error) => {
+          console.log (err.message);
+         // this.message = err
+      }})
+
+    }
+  }
+
 }

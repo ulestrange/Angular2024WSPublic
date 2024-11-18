@@ -21,10 +21,8 @@
 
             </mat-card-content>
             <mat-card-actions>
-                <!-- <a mat-raised-button color="primary"
-                [routerLink] = "['/grade-history',u._id]">VIEW DETAILS</a> -->
-                    <button mat-raised-button (click)="editGradeHistory()"
-                    >Edit</button>
+                    <button mat-raised-button (click)="editGradeHistory()" >Edit</button>
+                    <button mat-flat-button color="error" (click)="deleteGradeHistory()" >Delete </button>
             </mat-card-actions>
         </mat-card>
 
