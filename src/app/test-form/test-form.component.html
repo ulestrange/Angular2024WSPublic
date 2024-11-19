@@ -27,8 +27,8 @@
     </mat-form-field>
 
   
-    <div formArrayName="grades" >
-        @for (grade of grades.controls; track grade ;  let i=$index; ){
+    <div formArrayName="scores" >
+        @for (grade of scores.controls; track grade ;  let i=$index; ){
             <div [formGroupName]="i"> 
                 <fieldset>
 
@@ -76,9 +76,9 @@
     </div>
 
     <!-- <div >
-        @if (grades.invalid && grades.touched)
+        @if (scores.invalid && scores.touched)
         {
-        Issues with the grades
+        Issues with the scores
         }
     </div>
      -->
@@ -91,8 +91,8 @@
 
     <!-- <h2>Next Set</h2>
 
-   <div formArrayName="grades">
-            <div *ngFor="let grade of grades.controls; let i = index" >
+   <div formArrayName="scores">
+            <div *ngFor="let grade of scores.controls; let i = index" >
             <div  [formGroupName]="i"> 
                 <label for="score-{{ i }}">score {{i+1}}:</label>
                 <input id="score-{{ i }}" type="text" formControlName="score">

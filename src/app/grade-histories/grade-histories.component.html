@@ -1,5 +1,3 @@
-<h2>grade-histories works </h2>
-
 
 <p>{{message}}</p>
 
@@ -11,8 +9,14 @@
         <mat-card-content>
       Class : {{u.class_id}} 
       Student : {{u.student_id}}
-    </mat-card-content>
-    </mat-card>
+
+   
+    <mat-card-actions>
+    <a mat-raised-button color="primary"
+    [routerLink] = "['/grade-history',u._id]">VIEW DETAILS</a>
+  </mat-card-actions>
+</mat-card-content>
+</mat-card>
   }
 </div>
 
