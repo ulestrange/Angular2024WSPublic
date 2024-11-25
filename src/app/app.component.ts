@@ -7,7 +7,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, GradeHistoriesComponent, MatToolbarModule],
+  imports: [RouterOutlet, MatToolbarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
