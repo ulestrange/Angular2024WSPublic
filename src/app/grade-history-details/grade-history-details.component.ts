@@ -7,11 +7,15 @@ import { AsyncPipe, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { TestFormComponent } from '../test-form/test-form.component';
 import { MatCardModule } from '@angular/material/card'
 import { MatButton, MatButtonModule } from '@angular/material/button'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-grade-history-details',
   standalone: true,
-  imports: [AsyncPipe, TestFormComponent, MatCardModule, DecimalPipe, TitleCasePipe, MatButton],
+  imports: [AsyncPipe, 
+    MatSnackBarModule,
+    TestFormComponent, MatCardModule, DecimalPipe, TitleCasePipe,
+     MatButton],
   templateUrl: './grade-history-details.component.html',
   styleUrl: './grade-history-details.component.css'
 })
@@ -23,7 +27,8 @@ export class GradeHistoryDetailsComponent {
   gradeHistory$ : Observable<GradeHistory> | undefined
 
   constructor(private route: ActivatedRoute, private gradeHistoriesService : GradeHistoriesService,
-    private router : Router ) {}
+    private router : Router ,
+  private snackBar : MatSnackBar) {}
 
   ngOnInit(): void{
     this.id = this.route.snapshot.paramMap.get('id');
@@ -49,10 +54,18 @@ export class GradeHistoryDetailsComponent {
       },
       error: (err : Error) => {
           console.log (err.message);
-         // this.message = err
+          this.openErrorSnackBar (err.message)
       }})
 
     }
   }
+
+  openErrorSnackBar(message: string): void {
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 15000, // Set the duration for how long the snackbar should be visible (in milliseconds)
+      panelClass: ['error-snackbar'], // You can define custom styles for the snackbar
+    });
+  }
+  
 
 }

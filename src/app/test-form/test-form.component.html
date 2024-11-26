@@ -1,7 +1,9 @@
 
 
+
 <form [formGroup]="gradeHistoryForm" (ngSubmit) = "onSubmit()"  >
     <mat-card>
+        
 
         <mat-card-header>
             <h2>Enter Student and Class Information</h2>
@@ -111,6 +113,7 @@
 <mat-card-actions>
     <button  type="button" mat-flat-button (click)="addGrade()">Add Grade</button>
     <button type="submit" mat-raised-button [disabled]="gradeHistoryForm.invalid" >Submit</button>
-    </mat-card-actions>
+    <a mat-raised-button href="/grade-history"> Cancel </a>    
+</mat-card-actions>
     </mat-card>
 </form>
