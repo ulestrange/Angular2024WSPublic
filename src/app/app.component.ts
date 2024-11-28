@@ -22,7 +22,13 @@ export class AppComponent {
   ) {}
 
   handleLogOut() {
-    this.authService.logout();
+    this.authService.logout().subscribe({
+      next: response  =>
+       {
+         console.log('user is logged out');
+      //this.router.navigateByUrl('/');
+       }
+    });
 }
 
 
