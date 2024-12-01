@@ -4,10 +4,6 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from '../environments/environment';
 import { User } from './user';
 
-export interface AuthStatus {
-  isAuthenticated: boolean;
-  userId: string;
-}
 
 @Injectable({
   providedIn: 'root',
