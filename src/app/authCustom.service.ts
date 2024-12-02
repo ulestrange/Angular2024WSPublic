@@ -30,6 +30,8 @@ export class AuthCustomService {
   }
 
   private Uri = `${environment.apiUri}`;
+  
+  private authenticateTimeout?: any;
 
 
 
@@ -37,19 +39,33 @@ export class AuthCustomService {
     return this.http
       .post<any>(`${this.Uri}/auth`, { email: email, password: password })
       .pipe(
-        map((value) => {
-          localStorage.setItem('token', value.accessToken);
-          // still need to parse the name and user details
-          // from the token
-          localStorage.setItem('user', JSON.stringify({name : 'name'}));
-          this.currentUser$.next({name: 'name'} as User);
-          this.token$.next(value.accessToken);
+        map((body) => {
+          const payload = JSON.parse(atob(body.accessToken.split('.')[1]));
+          const expires = new Date(payload.exp *1000)
+          localStorage.setItem('token', body.accessToken);
+          localStorage.setItem('user', JSON.stringify(payload));
+          this.currentUser$.next(payload as User);
+          this.token$.next(body.accessToken);
           this.isAuthenticated$.next(true);
+          this.startAuthenticateTimer(expires);
           return;
         })
       );
   }
 
+
+  private startAuthenticateTimer(expires: Date) {
+
+    // set a timeout to re-authenticate with the api one minute before the token expires
+
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+
+    this.authenticateTimeout = setTimeout(() => {
+      if (this.isAuthenticated$.value){
+      this.getNewAccessToken().subscribe();
+      }
+    }, timeout);
+  }
 
   public logout() {
     localStorage.removeItem('user');
@@ -58,4 +74,15 @@ export class AuthCustomService {
     this.token$.next('');
     this.isAuthenticated$.next(false);
   }
+
+  // this hasn't been implemented on the server yet 
+  // we will be logged out instead.
+
+  private getNewAccessToken(): Observable<any> {
+      return this.http.post<any>(`${this.Uri}/auth/refresh`, {email : this.currentUser$.value?.email},
+        { withCredentials: true })
+      }
+
+
+
 }
