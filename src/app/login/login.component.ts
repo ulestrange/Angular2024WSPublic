@@ -11,18 +11,13 @@ import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  // imports: [
-  //   MatInputModule,
-  //   MatFormFieldModule,
-  //   MatButtonModule,
-  //   HttpClientModule,
-  //   ReactiveFormsModule
-  // ],
-  imports: [MatInputModule, ReactiveFormsModule, FormsModule, MatButtonModule],
+
+  imports: [MatSnackBarModule, MatInputModule, ReactiveFormsModule, FormsModule, MatButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -32,7 +27,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthCustomService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -44,9 +40,19 @@ export class LoginComponent {
     const values = this.loginForm.value;
     console.log('submit with ');
     console.table(values);
-    this.authService.login(this.email, this.password).subscribe(() => {
-      console.log('user is logged in'), this.router.navigateByUrl('/');
+    this.authService.login(this.email, this.password).
+    subscribe({
+      next: response  =>
+       {
+      console.log('user is logged in'), 
+      this.router.navigateByUrl('/');
+       },
+       error: (err : Error) =>{
+        this.openErrorSnackBar('Incorrect email or password')
+       }
+
     });
+    
   }
 
   get email() {
@@ -54,5 +60,13 @@ export class LoginComponent {
   }
   get password() {
     return this.loginForm.get('password')?.value;
+  }
+
+
+  openErrorSnackBar(message: string): void {
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 15000, // Set the duration for how long the snackbar should be visible (in milliseconds)
+      panelClass: ['error-snackbar'], // You can define custom styles for the snackbar
+    });
   }
 }

@@ -19,6 +19,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { GradeHistoriesService } from '../grade-histories-service';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-test-form',
@@ -32,7 +33,8 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatIconModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   templateUrl: './test-form.component.html',
   styleUrl: './test-form.component.css',
@@ -51,7 +53,7 @@ export class TestFormComponent {
 
   constructor(private formBuilder: FormBuilder,
      private gradeHistoriesService: GradeHistoriesService,
-    private router : Router) {
+    private router : Router, private snackBar : MatSnackBar) {
     // Cannot Initialize the form in the constructor anymore 
     // because the input is not defined until initialisaion
   }
@@ -131,6 +133,7 @@ populateScores() {
       },
       error: (err : Error) => {
           console.log (err.message);
+          this.openErrorSnackBar ('Creation Failed');
          // this.message = err
       }})
   }
@@ -143,21 +146,28 @@ populateScores() {
         },
         error: (err : Error) => {
             console.log (err.message);
-           // this.message = err
+            this.openErrorSnackBar ('Update Failed ');
           }})}
   
 
 
-  addNewGradeHistory(newHistory: GradeHistory): void {
-    console.log('adding new gradeHistory ' + JSON.stringify(newHistory));
-    this.gradeHistoriesService.addGradeHistory( {...newHistory})
-    .subscribe({
-    next: response => {
-      console.log('Grade history submitted successfully', response);
-    },
-    error: (err : Error) => {
-      console.error('There was an error!', err.message);
-    }  }
-    )
+  // addNewGradeHistory(newHistory: GradeHistory): void {
+  //   console.log('adding new gradeHistory ' + JSON.stringify(newHistory));
+  //   this.gradeHistoriesService.addGradeHistory( {...newHistory})
+  //   .subscribe({
+  //   next: response => {
+  //     console.log('Grade history submitted successfully', response);
+  //   },
+  //   error: (err : Error) => {
+  //     console.error('There was an error!', err.message);
+  //   }  }
+  //   )
+  // }
+
+  openErrorSnackBar(message: string): void {
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 15000, // Set the duration for how long the snackbar should be visible (in milliseconds)
+      panelClass: ['error-snackbar'], // You can define custom styles for the snackbar
+    });
   }
 }
