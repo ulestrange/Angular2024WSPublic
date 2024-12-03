@@ -11,7 +11,6 @@ import { User } from './user';
 export class AuthCustomService {
 
   readonly currentUser$ : BehaviorSubject<User | null> ;
- // readonly token$ : BehaviorSubject<string> ;
   readonly isAuthenticated$ : BehaviorSubject<boolean>;
   
   constructor(private http: HttpClient) {
@@ -21,10 +20,10 @@ export class AuthCustomService {
 
     const token = localStorage.getItem('token') || '';
 
- //   this.token$ = new BehaviorSubject<string>(localStorage.getItem('token') || '')
+    // if there is a token we need to check if it has
+    // expired.
     
    if (token != "") {
-    console.log(token)
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expires = payload.exp *1000
     if (expires > Date.now()){
@@ -73,7 +72,11 @@ export class AuthCustomService {
 
     this.authenticateTimeout = setTimeout(() => {
       if (this.isAuthenticated$.value){
-      this.getNewAccessToken().subscribe();
+      
+      // refresh tokens are not implmented yet so we logout instead.
+
+      //this.getNewAccessToken().subscribe();
+      this.logout();
       }
     }, timeout);
   }
@@ -89,11 +92,9 @@ export class AuthCustomService {
   // this hasn't been implemented on the server yet 
   // we will be logged out instead.
 
-  private getNewAccessToken(): Observable<any> {
-      return this.http.post<any>(`${this.Uri}/auth/refresh`, {email : this.currentUser$.value?.email},
-        { withCredentials: true })
-      }
-
-
+  // private getNewAccessToken(): Observable<any> {
+  //     return this.http.post<any>(`${this.Uri}/auth/refresh`, {email : this.currentUser$.value?.email},
+  //       { withCredentials: true })
+  //     }
 
 }

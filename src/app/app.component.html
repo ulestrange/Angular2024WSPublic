@@ -9,12 +9,12 @@
           Log out
          </button>
   
-         <!-- <div>
-            @if("auth.user$ | async as user")
+         <div>
+            @if(authService.currentUser$ | async; as user)
             {
-          {{ user.name }}
+                 {{ user.name }}
             }
-      </div> -->
+      </div>
     }
     @else {
         <a mat-raised-button href="/login" >Log in</a>

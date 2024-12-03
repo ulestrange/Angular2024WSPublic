@@ -10,7 +10,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthCustomService);
 
   const apiUri = `${environment.apiUri}`;
-  //const jwt = authService.token$.value;
+
   const jwt = localStorage.getItem('token');
 
   // we don't want to attach our token to a request to any other server
@@ -23,11 +23,14 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(authRequest).pipe(
       catchError((err) => {
-        console.log('not authorised to send request ' + err.status);
+        console.log('Request failed ' + err.status);
         {
-          // should logout the user
+
+          if (err.status == '301' || err.status=='303' || err.status == '0'){
+          // should logout the user ?
             authService.logout();         
             router.navigate(['/login'], {});
+          }
         }
         return throwError(() => err);
       })
