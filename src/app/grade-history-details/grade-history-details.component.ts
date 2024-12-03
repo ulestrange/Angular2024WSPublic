@@ -8,6 +8,7 @@ import { TestFormComponent } from '../test-form/test-form.component';
 import { MatCardModule } from '@angular/material/card'
 import { MatButton, MatButtonModule } from '@angular/material/button'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
+import { AuthCustomService } from '../authCustom.service';
 
 @Component({
   selector: 'app-grade-history-details',
@@ -28,7 +29,7 @@ export class GradeHistoryDetailsComponent {
 
   constructor(private route: ActivatedRoute, private gradeHistoriesService : GradeHistoriesService,
     private router : Router ,
-  private snackBar : MatSnackBar) {}
+  private snackBar : MatSnackBar, public authService: AuthCustomService) {}
 
   ngOnInit(): void{
     this.id = this.route.snapshot.paramMap.get('id');
