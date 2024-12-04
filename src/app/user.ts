@@ -5,4 +5,5 @@ export interface User {
   _id?: string;
   dateJoined?: Date;
   lastUpdated?: Date;
+  role?: string;
 }
