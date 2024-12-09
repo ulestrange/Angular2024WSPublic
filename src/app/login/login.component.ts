@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { AuthCustomService } from '../authCustom.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,17 +23,23 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  returnUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthCustomService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  ngOnInit(){
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {
@@ -45,7 +51,7 @@ export class LoginComponent {
       next: response  =>
        {
       console.log('user is logged in'), 
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl(this.returnUrl);
        },
        error: (err : Error) =>{
         this.openErrorSnackBar('Incorrect email or password')
